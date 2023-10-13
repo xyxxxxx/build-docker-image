@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir torch==1.13.1 torchvision==0.14.1 torchtext==0.14
 # FROM t9kpublic/ding:main
 RUN pip install --no-cache-dir transformers gym_super_mario_bros slimevolleygym
 COPY slimevolley.py /opt/conda/lib/python3.7/site-packages/slimevolleygym/slimevolley.py
-COPY slime_volley_ppo_config.py /opt/conda/lib/python3.7/site-packages/dizoo/slime_volley/config
+COPY slime_volley_ppo_config.py /opt/conda/lib/python3.7/site-packages/dizoo/slime_volley/config/
