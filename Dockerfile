@@ -1,9 +1,26 @@
-FROM opendilab/ding:nightly
+FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-devel
 
-RUN conda install -y x264=='1!152.20180717' ffmpeg=4.0.2 -c conda-forge && \
-    conda clean -ya
-RUN pip install --no-cache-dir torch==1.13.1 torchvision==0.14.1 torchtext==0.14.1
-# FROM t9kpublic/ding:main
-RUN pip install --no-cache-dir transformers gym_super_mario_bros slimevolleygym
-COPY slimevolley.py /opt/conda/lib/python3.7/site-packages/slimevolleygym/slimevolley.py
-COPY slime_volley_ppo_config.py /opt/conda/lib/python3.7/site-packages/dizoo/slime_volley/config/
+ENV DEBIAN_FRONTEND=noninteractive
+ENV NB_PREFIX=/
+
+SHELL ["/bin/bash", "-c"]
+
+RUN apt-get update && \
+  apt-get install -yq --no-install-recommends git && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
+
+RUN pip install --no-cache-dir --upgrade pip && \
+  pip install --no-cache-dir packaging && \
+  pip install --no-build-isolation --no-cache-dir flash-attn && \
+  pip install --no-cache-dir \
+  fschat \
+  transformers \
+  accelerate \
+  sentencepiece \
+  xformers \
+  transformers_stream_generator
+
+COPY openai.sh .
+
+ENTRYPOINT [ "./openai.sh" ]
