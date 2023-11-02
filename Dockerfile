@@ -64,7 +64,8 @@ RUN pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple --upg
     jupyter==1.0.0 \
     jupyterlab==4.0.7 \
     jupyterlab-widgets==3.0.9 \
-    jupyterlab-language-pack-zh-CN==4.0.post3
+    jupyterlab-language-pack-zh-CN==4.0.post3 \
+    tensorboard==2.15.0
 
 ARG GID=1000
 ARG UID=1000
