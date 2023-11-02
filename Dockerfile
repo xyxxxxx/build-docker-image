@@ -39,13 +39,6 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
   && apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
-# Install Nodejs for jupyterlab-manager
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-RUN apt-get update && apt-get install -yq --no-install-recommends \
-  nodejs \
-  && apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
-
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
   locale-gen
 ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8
