@@ -16,4 +16,5 @@ RUN pip install --no-cache-dir --upgrade pip && \
     moviepy \
     pygame \
     stable-retro \
-    opencv-python
+    opencv-python \
+    tensorboard
