@@ -1,7 +1,7 @@
 FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-runtime
 
 RUN apt-get update && \
-    apt-get install -yq --no-install-recommends python-opengl xvfb swig && \
+    apt-get install -yq --no-install-recommends python-opengl xvfb build-essential swig && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
