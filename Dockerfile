@@ -13,7 +13,6 @@ RUN pip install --no-cache-dir --upgrade pip && \
     gymnasium[accept-rom-license] \
     gymnasium[box2d] \
     gymnasium[mujoco] \
-    gymnasium[mujoco_py] \
     moviepy \
     pygame \
     stable-retro \
