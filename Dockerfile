@@ -1,20 +1,32 @@
-FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-runtime
+ARG BITNAMI_POSTGRES_BASE_VERSION=16
+FROM bitnami/postgresql:$BITNAMI_POSTGRES_BASE_VERSION as build
+ARG BITNAMI_POSTGRES_BASE_VERSION
+ARG PGVECTOR_VERSION=v0.6.0
 
-RUN apt-get update && \
-    apt-get install -yq --no-install-recommends python-opengl xvfb build-essential swig && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+USER root
 
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir \
-    stable_baselines3 \
-    gymnasium \
-    gymnasium[atari] \
-    gymnasium[accept-rom-license] \
-    gymnasium[box2d] \
-    gymnasium[mujoco] \
-    moviepy \
-    pygame \
-    stable-retro \
-    opencv-python-headless \
-    tensorboard
+RUN set -e; \
+    install_packages build-essential git ; \
+    git clone --branch $PGVECTOR_VERSION https://github.com/pgvector/pgvector.git /tmp/pgvector ; \
+    cd /tmp/pgvector ; \
+    make OPTFLAGS="" ; \
+    make install ; \
+    :
+
+FROM bitnami/postgresql:$BITNAMI_POSTGRES_BASE_VERSION
+
+# Doc
+COPY --from=build \
+    /tmp/pgvector/README.md \
+    /tmp/pgvector/LICENSE \
+    /usr/share/doc/pgvector/
+# Code
+COPY --from=build \
+    /tmp/pgvector/vector.so \
+    /opt/bitnami/postgresql/lib/
+COPY --from=build \
+    /tmp/pgvector/vector.control \
+    /opt/bitnami/postgresql/share/extension/
+COPY --from=build \
+    /tmp/pgvector/sql/*.sql \
+    /opt/bitnami/postgresql/share/extension/
