@@ -1,32 +1,26 @@
-ARG BITNAMI_POSTGRES_BASE_VERSION=16
-FROM bitnami/postgresql:$BITNAMI_POSTGRES_BASE_VERSION as build
-ARG BITNAMI_POSTGRES_BASE_VERSION
-ARG PGVECTOR_VERSION=v0.6.0
+FROM pytorch/pytorch:2.2.0-cuda12.1-cudnn8-devel
 
-USER root
+ENV DEBIAN_FRONTEND=noninteractive
+ENV NB_PREFIX=/
 
-RUN set -e; \
-    install_packages build-essential git ; \
-    git clone --branch $PGVECTOR_VERSION https://github.com/pgvector/pgvector.git /tmp/pgvector ; \
-    cd /tmp/pgvector ; \
-    make OPTFLAGS="" ; \
-    make install ; \
-    :
+SHELL ["/bin/bash", "-c"]
 
-FROM bitnami/postgresql:$BITNAMI_POSTGRES_BASE_VERSION
+RUN apt-get update && \
+  apt-get install -yq --no-install-recommends git && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
-# Doc
-COPY --from=build \
-    /tmp/pgvector/README.md \
-    /tmp/pgvector/LICENSE \
-    /usr/share/doc/pgvector/
-# Code
-COPY --from=build \
-    /tmp/pgvector/vector.so \
-    /opt/bitnami/postgresql/lib/
-COPY --from=build \
-    /tmp/pgvector/vector.control \
-    /opt/bitnami/postgresql/share/extension/
-COPY --from=build \
-    /tmp/pgvector/sql/*.sql \
-    /opt/bitnami/postgresql/share/extension/
+RUN pip install --no-cache-dir --upgrade pip && \
+  pip install --no-cache-dir packaging && \
+  pip install --no-build-isolation --no-cache-dir flash-attn && \
+  pip install --no-cache-dir \
+  fschat \
+  transformers \
+  accelerate \
+  sentencepiece \
+  xformers \
+  transformers_stream_generator
+
+COPY openai.sh .
+EXPOSE 80
+ENTRYPOINT [ "./openai.sh" ]
