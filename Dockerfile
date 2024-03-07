@@ -1,26 +1,6 @@
-FROM pytorch/pytorch:2.2.0-cuda12.1-cudnn8-devel
+FROM nvcr.io/nvidia/tritonserver:24.02-trtllm-python-py3
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV NB_PREFIX=/
-
-SHELL ["/bin/bash", "-c"]
-
-RUN apt-get update && \
-  apt-get install -yq --no-install-recommends git && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
-
-RUN pip install --no-cache-dir --upgrade pip && \
-  pip install --no-cache-dir packaging && \
-  pip install --no-build-isolation --no-cache-dir flash-attn && \
-  pip install --no-cache-dir \
-  fschat \
-  transformers \
-  accelerate \
-  sentencepiece \
-  xformers \
-  transformers_stream_generator
-
-COPY openai.sh .
-EXPOSE 80
-ENTRYPOINT [ "./openai.sh" ]
+RUN pip3 install --no-cache-dir --upgrade pip3 && \
+  pip3 install --no-cache-dir --default-timeout=100 torch==2.1.2
+  
+CMD [ "python3" ]
