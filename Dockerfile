@@ -1,57 +1,21 @@
-FROM nvidia/cuda:12.4.0-devel-ubuntu20.04
+FROM t9kpublic/stable-diffusion-webui:aki-v4.8-semi
 
-ENV TZ=US/Pacific
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y --allow-downgrades --allow-change-held-packages --no-install-recommends \
-        build-essential \
-        cmake \
-        g++-7 \
-        git \
-        curl \
-        vim \
-        wget \
-        apt-utils \
-        ca-certificates \
-        iproute2 \
-        iputils-ping \
-        net-tools \
-        ethtool \
-        pciutils \
-        libnl-route-3-200 \
-        kmod \
-        lsof \
-        libcudnn8 \
-        libnccl2 \
-        libnccl-dev \
-        libjpeg-dev \
-        libpng-dev \
-        librdmacm1 \
-        libibverbs1 \
-        ibverbs-providers
+ENV NB_PREFIX=/
 
-# Install Open MPI
-RUN mkdir /tmp/openmpi && \
-    cd /tmp/openmpi && \
-    wget https://www.open-mpi.org/software/ompi/v4.1/downloads/openmpi-4.1.3.tar.gz && \
-    tar zxf openmpi-4.1.3.tar.gz && \
-    cd openmpi-4.1.3 && \
-    ./configure --enable-orterun-prefix-by-default && \
-    make -j $(nproc) all && \
-    make install && \
-    ldconfig && \
-    rm -rf /tmp/openmpi
+SHELL ["/bin/bash", "-c"]
 
-# Install OpenSSH for MPI to communicate between containers
-RUN apt-get install -y --no-install-recommends openssh-client openssh-server && \
-    mkdir -p /var/run/sshd
-RUN sed -i 's/[ #]\(.*StrictHostKeyChecking \).*/ \1no/g' /etc/ssh/ssh_config && \
-    echo "    UserKnownHostsFile /dev/null" >> /etc/ssh/ssh_config && \
-    sed -i 's/#\(StrictModes \).*/\1no/g' /etc/ssh/sshd_config
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+  ffmpeg \
+  libsm6 \
+  libxext6 \
+  git \
+  && apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
-# Install NCCL-Test step
-WORKDIR /nccl_tests
-RUN wget -q -O - https://github.com/NVIDIA/nccl-tests/archive/master.tar.gz | tar --strip-components=1 -xzf - \
-    && make MPI=1
+RUN pip install --no-cache-dir --upgrade pip && \
+  pip install --no-cache-dir --default-timeout=100 -r requirements_versions.txt
+RUN python launch.py --exit --skip-torch-cuda-test
 
-ENV LD_LIBRARY_PATH /usr/local/lib:/usr/lib:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+ENTRYPOINT [ "./launch.sh" ]
