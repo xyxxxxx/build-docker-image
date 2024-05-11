@@ -1,4 +1,4 @@
-FROM t9kpublic/stable-diffusion-webui:aki-v4.8-semi
+FROM t9kpublic/stable-diffusion-webui:20240511-semi
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -7,6 +7,7 @@ ENV NB_PREFIX=/
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get install -yq --no-install-recommends \
+  build-essential \
   ffmpeg \
   libsm6 \
   libxext6 \
