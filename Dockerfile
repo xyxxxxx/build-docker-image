@@ -1,22 +1,24 @@
-FROM t9kpublic/stable-diffusion-webui:20240511-semi
+FROM rust as builder
+RUN apt update && apt install -y build-essential
+# Install mdbook
+RUN cargo install mdbook
+RUN cargo install mdbook-pandoc
+RUN cargo install mdbook-katex
 
-ENV DEBIAN_FRONTEND=noninteractive
+FROM python as base
+RUN apt update \
+    && apt install -y pandoc texlive-xetex \
+    && apt autoremove -y \
+    && apt clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && rm -rf /root/.cache
 
-ENV NB_PREFIX=/
+COPY --from=builder /usr/local/cargo/bin/mdbook /usr/local/bin/mdbook
+COPY --from=builder /usr/local/cargo/bin/mdbook-pandoc /usr/local/bin/mdbook-pandoc
+COPY --from=builder /usr/local/cargo/bin/mdbook-katex /usr/local/bin/mdbook-katex
+WORKDIR /book
 
-SHELL ["/bin/bash", "-c"]
+# Add other mdbook backend at /mdbook dir
+ENV PATH="$PATH:/mdbook"
 
-RUN apt-get update && apt-get install -yq --no-install-recommends \
-  build-essential \
-  ffmpeg \
-  libsm6 \
-  libxext6 \
-  git \
-  && apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
-
-RUN pip install --no-cache-dir --upgrade pip && \
-  pip install --no-cache-dir --default-timeout=100 -r requirements_versions.txt
-RUN python launch.py --exit --skip-torch-cuda-test
-
-ENTRYPOINT [ "./launch.sh" ]
+ENTRYPOINT [ "mdbook", "build" ]
