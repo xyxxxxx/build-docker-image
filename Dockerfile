@@ -7,7 +7,7 @@ RUN cargo install mdbook-katex
 
 FROM python as base
 RUN apt update \
-    && apt install -y pandoc texlive-xetex \
+    && apt install -y pandoc texlive-full \
     && apt autoremove -y \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
