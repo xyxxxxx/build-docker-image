@@ -31,4 +31,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: t9kpublic/gpt-researcher:latest,t9kpublic/gpt-researcher:20240520
+          tags: t9kpublic/opendevin:0.5
