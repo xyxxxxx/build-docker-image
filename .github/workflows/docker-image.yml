@@ -31,4 +31,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: t9kpublic/gpt-researcher:0.2.4
+          tags: t9kpublic/fish-speech:1.2-1
