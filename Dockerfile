@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 ENV FLASH_ATTENTION_FORCE_BUILD=TRUE
 
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir deepspeed==0.9.5 flash-attn==1.0.5
+    pip install --no-cache-dir deepspeed==0.9.5 flash-attn==1.0.9
 
 RUN mkdir /run/sshd
 RUN chown root:root /usr/lib
