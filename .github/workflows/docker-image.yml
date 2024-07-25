@@ -31,4 +31,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: t9kpublic/fish-speech:v1.2-2
+          tags: t9kpublic/megatron-deepspeed:23.05-py3

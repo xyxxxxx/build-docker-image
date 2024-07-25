@@ -1,8 +1,15 @@
-FROM lengyue233/fish-speech:latest
+FROM nvcr.io/nvidia/pytorch:23.06-py3
 
-RUN huggingface-cli download fishaudio/fish-speech-1.2-sft --local-dir checkpoints/fish-speech-1.2-sft
-COPY webui.py /exp/tools/webui.py
-RUN python -m tools.webui --exit --device cpu
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+    openssh-server \
+    pdsh \
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-ENV GRADIO_SERVER_NAME=0.0.0.0
-ENTRYPOINT [ "python", "-m", "tools.webui" ]
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir deepspeed==0.9.5 flash-attn==1.0.5
+
+RUN mkdir /run/sshd
+RUN chown root:root /usr/lib
+
+ENTRYPOINT /usr/sbin/sshd -D && bash
