@@ -31,4 +31,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: t9kpublic/megatron-deepspeed:23.06-py3
+          tags: t9kpublic/llama-factory:20240729

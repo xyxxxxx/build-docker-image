@@ -1,17 +1,18 @@
-FROM nvcr.io/nvidia/pytorch:23.06-py3
+FROM pytorch/pytorch:2.4.0-cuda12.1-cudnn9-runtime
 
-RUN apt-get update && apt-get install -yq --no-install-recommends \
-    openssh-server \
-    pdsh \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+  apt-get install -yq --no-install-recommends openssh-server pdsh git && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
-ENV FLASH_ATTENTION_FORCE_BUILD=TRUE
-
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir deepspeed==0.9.5 flash-attn==1.0.9
+RUN git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git && \
+  cd LLaMA-Factory && \
+  pip install --no-cache-dir --upgrade pip && \
+  pip install -e ".[torch,metrics,deepspeed,bitsandbytes]" && \
+  cd .. && \
+  rm -rf LLaMA-Factory
 
 RUN mkdir /run/sshd
 RUN chown root:root /usr/lib
 
-ENTRYPOINT /usr/sbin/sshd -D && bash
+WORKDIR /workspace
