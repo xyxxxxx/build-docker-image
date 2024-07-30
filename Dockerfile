@@ -29,3 +29,4 @@ RUN groupadd --gid=$GID t9kuser && mkdir /t9k && \
 USER t9kuser
 
 ENTRYPOINT [ "llamafactory-cli", "webui" ]
+
