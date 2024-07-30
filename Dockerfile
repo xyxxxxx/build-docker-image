@@ -8,7 +8,7 @@ RUN apt-get update && \
 RUN git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git && \
   cd LLaMA-Factory && \
   pip install --no-cache-dir --upgrade pip && \
-  pip install ".[torch,metrics,deepspeed,bitsandbytes]" && \
+  pip install ".[torch,metrics,deepspeed,bitsandbytes,hqq,eetq,gptq,awq,aqlm,vllm,galore,badam,qwen,modelscope,dev]" && \
   cd .. && \
   rm -rf LLaMA-Factory
 
@@ -22,4 +22,4 @@ RUN groupadd --gid=$GID t9kuser && mkdir /t9k && \
     --uid=$UID --gid=$GID t9kuser
 USER t9kuser
 
-WORKDIR /workspace
+ENTRYPOINT [ "llamafactory-cli", "webui" ]
