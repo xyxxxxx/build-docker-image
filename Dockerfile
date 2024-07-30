@@ -1,15 +1,13 @@
-FROM pytorch/pytorch:2.4.0-cuda12.1-cudnn9-devel
+FROM pytorch/pytorch:2.4.0-cuda12.1-cudnn9-runtime
 
 RUN apt-get update && \
-  apt-get install -yq --no-install-recommends openssh-server pdsh git && \
+  apt-get install -yq --no-install-recommends openssh-server pdsh git libaio-dev && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
 RUN git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git && \
-  cd LLaMA-Factory && \
   pip install --no-cache-dir --upgrade pip && \
-  pip install -e ".[torch,metrics,deepspeed,bitsandbytes]" && \
-  cd .. && \
+  pip install "LLaMA-Factory[torch,metrics,deepspeed,bitsandbytes]" && \
   rm -rf LLaMA-Factory
 
 RUN mkdir /run/sshd
@@ -21,5 +19,3 @@ RUN groupadd --gid=$GID t9kuser && mkdir /t9k && \
     useradd -rm --create-home -d /t9k/mnt --shell /bin/bash \
     --uid=$UID --gid=$GID t9kuser
 USER t9kuser
-
-WORKDIR /workspace
