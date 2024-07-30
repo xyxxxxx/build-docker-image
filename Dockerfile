@@ -28,5 +28,11 @@ RUN groupadd --gid=$GID t9kuser && mkdir /t9k && \
     --uid=$UID --gid=$GID t9kuser
 USER t9kuser
 
-ENTRYPOINT [ "llamafactory-cli", "webui" ]
+WORKDIR /t9k/backup
+RUN git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git && \
+  mv LLaMA-Factory/data . && \
+  rm -rf LLaMA-Factory
 
+WORKDIR /t9k/mnt
+COPY launch.sh ./launch.sh
+ENTRYPOINT [ "./launch.sh" ]

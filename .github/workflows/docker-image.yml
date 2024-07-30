@@ -39,4 +39,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: t9kpublic/llama-factory-webui:20240730-1
+          tags: t9kpublic/llama-factory-webui:20240730-2
