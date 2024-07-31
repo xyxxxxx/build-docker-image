@@ -24,8 +24,8 @@ RUN chown root:root /usr/lib
 ARG GID=1000
 ARG UID=1000
 RUN groupadd --gid=$GID t9kuser && mkdir /t9k && \
-    useradd -rm --create-home -d /t9k/mnt --shell /bin/bash \
-    --uid=$UID --gid=$GID t9kuser
+    useradd -rm --create-home -d /t9k/mnt --shell /bin/bash --uid=$UID --gid=$GID t9kuser && \
+    chown $UID:$GID /t9k/mnt
 USER t9kuser
 
 WORKDIR /t9k/backup
@@ -34,4 +34,5 @@ RUN git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git && \
   rm -rf LLaMA-Factory
 COPY launch.sh ./launch.sh
 
+WORKDIR /t9k/mnt
 ENTRYPOINT [ "/t9k/backup/launch.sh" ]
