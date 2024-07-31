@@ -32,7 +32,6 @@ WORKDIR /t9k/backup
 RUN git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git && \
   mv LLaMA-Factory/data . && \
   rm -rf LLaMA-Factory
-
-WORKDIR /t9k/mnt
 COPY launch.sh ./launch.sh
-ENTRYPOINT [ "./launch.sh" ]
+
+ENTRYPOINT [ "/t9k/backup/launch.sh" ]
