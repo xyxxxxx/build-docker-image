@@ -39,4 +39,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: t9kpublic/llama-factory-webui:20240730
+          tags: t9kpublic/tensorboard:2.17.0
