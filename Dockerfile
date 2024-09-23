@@ -1,4 +1,4 @@
-FROM lengyue233/fish-speech:v1.4.1
+FROM lengyue233/fish-speech:latest
 
 RUN huggingface-cli download fishaudio/fish-speech-1.4 --local-dir checkpoints/fish-speech-1.4
 COPY webui.py /opt/fish-speech/tools/webui.py
