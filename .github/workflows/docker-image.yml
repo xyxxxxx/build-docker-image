@@ -39,4 +39,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: t9kpublic/tensorboard:2.17.0
+          tags: t9kpublic/fish-speech:v1.4.1

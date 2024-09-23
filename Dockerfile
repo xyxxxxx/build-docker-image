@@ -1,4 +1,7 @@
-FROM tensorflow/tensorflow:2.17.0
+FROM lengyue233/fish-speech:v1.4.1
 
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir tensorflow-io
+RUN huggingface-cli download fishaudio/fish-speech-1.4 --local-dir checkpoints/fish-speech-1.4
+RUN python -m tools.webui --exit --device cpu
+
+ENV GRADIO_SERVER_NAME=0.0.0.0
+ENTRYPOINT [ "python", "-m", "tools.webui" ]
