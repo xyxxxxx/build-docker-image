@@ -39,4 +39,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: t9kpublic/auto-gpt:v0.5.1-1
+          tags: t9kpublic/auto-gpt:v0.5.1-2
