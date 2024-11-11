@@ -5,4 +5,4 @@ RUN cd /root && \
   bash /runner-scripts/download.sh && \
   mv /root/* /home
 
-COPY entrypoint.sh /home/scripts/entrypoint.sh
+COPY entrypoint.sh /runner-scripts/entrypoint.sh
