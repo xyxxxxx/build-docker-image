@@ -1,4 +1,4 @@
-FROM yanwk/comfyui-boot:cu124-cn-20241021
+FROM yanwk/comfyui-boot:cu124-cn-20241111
 
 RUN cd /root && \
   chmod +x /runner-scripts/download.sh && \
