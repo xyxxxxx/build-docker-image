@@ -29,7 +29,7 @@ set +e
 cd /root
 git clone https://ghp.ci/https://github.com/comfyanonymous/ComfyUI.git || git -C ComfyUI pull --ff-only
 cd /root/ComfyUI
-git reset --hard v0.2.7
+git reset --hard v0.2.3
 set -e
 
 cd /root/ComfyUI/custom_nodes
