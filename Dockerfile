@@ -6,4 +6,4 @@ COPY entrypoint.sh /runner-scripts/entrypoint.sh
 RUN cd /root && \
   chmod +x /runner-scripts/download.sh && \
   bash /runner-scripts/download.sh && \
-  mv /root/* /home
+  mv /root/{.,}* /home

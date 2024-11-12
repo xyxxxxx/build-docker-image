@@ -2,7 +2,7 @@
 set -e
 
 if [ ! -f "/root/.download-complete" ] ; then
-    mv /home/* /root
+    mv /home/{.,}* /root
 fi ;
 
 echo "########################################"
