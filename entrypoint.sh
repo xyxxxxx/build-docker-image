@@ -3,6 +3,7 @@ set -e
 
 if [ ! -f "/root/.download-complete" ] ; then
     mv /home/{.,}* /root
+    chown 0:2000 /root/ComfyUI
 fi ;
 
 echo "########################################"
