@@ -39,4 +39,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: t9kpublic/dify-api:0.15.0
+          tags: t9kpublic/dify-web:0.15.0
