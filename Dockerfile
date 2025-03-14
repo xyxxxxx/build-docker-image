@@ -8,7 +8,7 @@ RUN apt-get update && \
 RUN git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git && \
   cd LLaMA-Factory && \
   pip install --no-cache-dir --upgrade pip && \
-  pip install ".[torch,metrics,deepspeed,liger-kernel,bitsandbytes,hqq,gptq,awq,aqlm,vllm,galore,apollo,badam,adam-mini,qwen,minicpm_v,modelscope,swanlab,quality]" && \
+  pip install ".[metrics,deepspeed,liger-kernel,bitsandbytes,hqq,gptq,awq,aqlm,vllm,galore,apollo,badam,adam-mini,qwen,minicpm_v,modelscope,swanlab]" && \
   cd .. && \
   rm -rf LLaMA-Factory && \
   git clone --depth 1 https://github.com/NetEase-FuXi/EETQ.git && \
