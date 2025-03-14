@@ -8,9 +8,15 @@ RUN apt-get update && \
 RUN git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git && \
   cd LLaMA-Factory && \
   pip install --no-cache-dir --upgrade pip && \
-  pip install ".[torch,metrics,deepspeed,liger-kernel,bitsandbytes,hqq,eetq,gptq,awq,aqlm,vllm,galore,apollo,badam,adam-mini,qwen,minicpm_v,modelscope,openmind,swanlab,quality]" && \
+  pip install ".[torch,metrics,deepspeed,liger-kernel,bitsandbytes,hqq,gptq,awq,aqlm,vllm,galore,apollo,badam,adam-mini,qwen,minicpm_v,modelscope,openmind,swanlab,quality]" && \
   cd .. && \
-  rm -rf LLaMA-Factory
+  rm -rf LLaMA-Factory && \
+  git clone --depth 1 https://github.com/NetEase-FuXi/EETQ.git && \
+  cd EETQ && \
+  git submodule update --init --recursive && \
+  pip install . && \
+  cd .. && \
+  rm -rf EETQ
 
 RUN mkdir /run/sshd
 RUN chown root:root /usr/lib
