@@ -39,4 +39,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: t9kpublic/llama-board:20250314
+          tags: t9kpublic/llama-board:20250315
