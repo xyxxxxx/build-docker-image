@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:2.6.0-cuda12.4-cudnn9-devel
+FROM pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
 
 RUN apt-get update && \
   apt-get install -yq --no-install-recommends openssh-server pdsh git libaio-dev && \
@@ -10,7 +10,7 @@ RUN git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git && \
   pip install --no-cache-dir --upgrade pip && \
   pip install -r requirements.txt && \
   pip install ".[metrics,deepspeed,liger-kernel,bitsandbytes,hqq,gptq,awq,aqlm,vllm,galore,apollo,badam,adam-mini,qwen,minicpm_v,modelscope,swanlab]" && \
-  pip install "torch==2.6.0+cu124" "torchvision==0.16.0+cu124" "torchaudio==2.6.0+cu124" -f https://download.pytorch.org/whl/torch_stable.html && \
+  #   pip install "torch==2.6.0" "torchvision==0.21.0" "torchaudio==2.6.0" -f https://download.pytorch.org/whl/cu124 && \
   cd .. && \
   rm -rf LLaMA-Factory && \
   git clone --depth 1 https://github.com/NetEase-FuXi/EETQ.git && \
