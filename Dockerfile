@@ -10,11 +10,11 @@ RUN git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git && \
   pip install --no-cache-dir --upgrade pip && \
   pip install -r requirements.txt && \
   pip install ".[metrics,deepspeed,liger-kernel,bitsandbytes,hqq,gptq,awq,aqlm,vllm,galore,apollo,badam,adam-mini,qwen,minicpm_v,modelscope,swanlab]" && \
-  #   pip install "torch==2.6.0" "torchvision==0.21.0" "torchaudio==2.6.0" -f https://download.pytorch.org/whl/cu124 && \
   cd .. && \
   rm -rf LLaMA-Factory && \
   git clone --depth 1 https://github.com/NetEase-FuXi/EETQ.git && \
   cd EETQ && \
+  git reset --hard a6c5110 && \
   git submodule update --init --recursive && \
   pip install . && \
   cd .. && \
