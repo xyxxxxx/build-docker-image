@@ -39,4 +39,4 @@ jobs:
           context: .
           file: ./docker/docker-cuda/Dockerfile
           push: true
-          tags: t9kpublic/llamafactory:20250317
+          tags: t9kpublic/comfyui:v0.3.27
